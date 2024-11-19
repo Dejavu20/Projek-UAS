@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rental Mobil</title>
+  
+  <!-- Menggunakan Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Link ke Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Gaya Kustom (Jika Diperlukan) */
+    body {
+      font-family: 'Montserrat', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+
+  <!-- Navbar -->
+  <header id="header" class="bg-blue-600 text-white py-6 transition-all duration-300 fixed w-full top-0 z-50">
+    <div class="container mx-auto flex justify-between items-center px-4">
+      <h1 class="text-2xl font-bold">Rental Mobil</h1>
+      <nav class="hidden md:flex space-x-6">
+        <a href="#home" class="nav-link px-4 hover:text-gray-200">Beranda</a>
+        <a href="#cars" class="nav-link px-4 hover:text-gray-200">Mobil</a>
+        <a href="#contact" class="nav-link px-4 hover:text-gray-200">Kontak</a>
+      </nav>
+      <!-- Hamburger Menu for Mobile -->
+      <div class="md:hidden">
+        <button id="hamburger-menu" class="text-white focus:outline-none">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden hidden bg-blue-600 text-white py-4 space-y-2 transition-all duration-300">
+      <a href="#home" class="block text-center nav-link px-4 py-2 hover:bg-blue-700">Beranda</a>
+      <a href="#cars" class="block text-center nav-link px-4 py-2 hover:bg-blue-700">Mobil</a>
+      <a href="#contact" class="block text-center nav-link px-4 py-2 hover:bg-blue-700">Kontak</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="home" class="relative py-20 text-center bg-cover bg-center bg-no-repeat mt-20" style="background-image: url('img/MobilBG.jpeg');">
+    <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+    <div class="relative z-10 px-4">
+      <h2 class="text-3xl md:text-5xl font-bold mb-4 text-white">Sewa Mobil Mudah dan Cepat</h2>
+      <p class="text-lg mb-6 text-white">Dapatkan mobil terbaik untuk perjalanan Anda dengan harga terjangkau.</p>
+      <a href="#cars" class="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700">Lihat Mobil</a>
+    </div>
+  </section>
+
+  <!-- Filter Section -->
+  <section class="py-6 bg-gray-100">
+    <div class="container mx-auto flex flex-col sm:flex-row justify-center gap-4 px-4">
+      <!-- Filter Berdasarkan Merek -->
+      <select id="brandFilter" class="p-3 border rounded-md w-full sm:w-64" onchange="filterCars()">
+        <option value="">Semua Merek</option>
+        <option value="Toyota">Toyota</option>
+        <option value="Honda">Honda</option>
+        <option value="Suzuki">Suzuki</option>
+        <option value="Daihatsu">Daihatsu</option>
+        <option value="Mitsubishi">Mitsubishi</option>
+        <option value="Nissan">Nissan</option>
+        <option value="Kia">Kia</option>
+        <option value="Ford">Ford</option>
+        <option value="BMW">BMW</option>
+        <option value="Mercedes-Benz">Mercedes-Benz</option>
+        <!-- Tambahkan lebih banyak merek sesuai kebutuhan -->
+      </select>
+    </div>
+  </section>
+
+  <!-- Daftar Mobil -->
+  <section id="cars" class="py-20">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-10">Daftar Mobil</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8" id="carContainer">
+        <!-- Toyota -->
+        <!-- Toyota Avanza -->
+        <div class="bg-white shadow-md rounded-lg p-6 car-item" data-brand="Toyota" data-price="400000">
+          <img src="img/Toyota-Avanza.png" alt="Toyota Avanza" class="mb-4 rounded-lg w-full h-48 object-cover">
+          <h3 class="text-xl font-bold mb-2">Toyota Avanza</h3>
+          <p class="mb-4">Harga: Rp 400.000 / hari</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Toyota Avanza')">Sewa Sekarang</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Toyota Avanza')">Favorit</button>
+          </div>
+        </div>
+
+        <!-- Toyota Innova -->
+        <div class="bg-white shadow-md rounded-lg p-6 car-item" data-brand="Toyota" data-price="550000">
+          <img src="img/Toyota-Innova.png" alt="Toyota Innova" class="mb-4 rounded-lg w-full h-48 object-cover">
+          <h3 class="text-xl font-bold mb-2">Toyota Innova</h3>
+          <p class="mb-4">Harga: Rp 550.000 / hari</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Toyota Innova')">Sewa Sekarang</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Toyota Innova')">Favorit</button>
+          </div>
+        </div>
+
+        <!-- Toyota Fortuner -->
+        <div class="bg-white shadow-md rounded-lg p-6 car-item" data-brand="Toyota" data-price="800000">
+          <img src="img/Toyota-Fortuner.jpeg" alt="Toyota Fortuner" class="mb-4 rounded-lg w-full h-48 object-cover">
+          <h3 class="text-xl font-bold mb-2">Toyota Fortuner</h3>
+          <p class="mb-4">Harga: Rp 800.000 / hari</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Toyota Fortuner')">Sewa Sekarang</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Toyota Fortuner')">Favorit</button>
+          </div>
+        </div>
+
+        <!-- Honda -->
+        <!-- Honda Brio -->
+        <div class="bg-white shadow-md rounded-lg p-6 car-item" data-brand="Honda" data-price="350000">
+          <img src="https://via.placeholder.com/400" alt="Honda Brio" class="mb-4 rounded-lg w-full h-48 object-cover">
+          <h3 class="text-xl font-bold mb-2">Honda Brio</h3>
+          <p class="mb-4">Harga: Rp 350.000 / hari</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Honda Brio')">Sewa Sekarang</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Honda Brio')">Favorit</button>
+          </div>
+        </div>
+
+        <!-- Honda Civic -->
+        <div class="bg-white shadow-md rounded-lg p-6 car-item" data-brand="Honda" data-price="600000">
+          <img src="https://via.placeholder.com/400" alt="Honda Civic" class="mb-4 rounded-lg w-full h-48 object-cover">
+          <h3 class="text-xl font-bold mb-2">Honda Civic</h3>
+          <p class="mb-4">Harga: Rp 600.000 / hari</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Honda Civic')">Sewa Sekarang</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Honda Civic')">Favorit</button>
+          </div>
+        </div>
+
+        <!-- Honda CR-V -->
+        <div class="bg-white shadow-md rounded-lg p-6 car-item" data-brand="Honda" data-price="700000">
+          <img src="https://via.placeholder.com/400" alt="Honda CR-V" class="mb-4 rounded-lg w-full h-48 object-cover">
+          <h3 class="text-xl font-bold mb-2">Honda CR-V</h3>
+          <p class="mb-4">Harga: Rp 700.000 / hari</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Honda CR-V')">Sewa Sekarang</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Honda CR-V')">Favorit</button>
+          </div>
+        </div>
+
+        <!-- Suzuki -->
+        <!-- Suzuki Ertiga -->
+        <div class="bg-white shadow-md rounded-lg p-6 car-item" data-brand="Suzuki" data-price="450000">
+          <img src="https://via.placeholder.com/400" alt="Suzuki Ertiga" class="mb-4 rounded-lg w-full h-48 object-cover">
+          <h3 class="text-xl font-bold mb-2">Suzuki Ertiga</h3>
+          <p class="mb-4">Harga: Rp 450.000 / hari</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Suzuki Ertiga')">Sewa Sekarang</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Suzuki Ertiga')">Favorit</button>
+          </div>
+        </div>
+
+        <!-- Suzuki Swift -->
+        <div class="bg-white shadow-md rounded-lg p-6 car-item" data-brand="Suzuki" data-price="400000">
+          <img src="https://via.placeholder.com/400" alt="Suzuki Swift" class="mb-4 rounded-lg w-full h-48 object-cover">
+          <h3 class="text-xl font-bold mb-2">Suzuki Swift</h3>
+          <p class="mb-4">Harga: Rp 400.000 / hari</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Suzuki Swift')">Sewa Sekarang</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Suzuki Swift')">Favorit</button>
+          </div>
+        </div>
+
+        <!-- Suzuki Ignis -->
+        <div class="bg-white shadow-md rounded-lg p-6 car-item" data-brand="Suzuki" data-price="380000">
+          <img src="https://via.placeholder.com/400" alt="Suzuki Ignis" class="mb-4 rounded-lg w-full h-48 object-cover">
+          <h3 class="text-xl font-bold mb-2">Suzuki Ignis</h3>
+          <p class="mb-4">Harga: Rp 380.000 / hari</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Suzuki Ignis')">Sewa Sekarang</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Suzuki Ignis')">Favorit</button>
+          </div>
+        </div>
+
+        <!-- Daihatsu -->
+        <!-- Daihatsu Xenia -->
+        <div class="bg-white shadow-md rounded-lg p-6 car-item" data-brand="Daihatsu" data-price="500000">
+          <img src="https://via.placeholder.com/400" alt="Daihatsu Xenia" class="mb-4 rounded-lg w-full h-48 object-cover">
+          <h3 class="text-xl font-bold mb-2">Daihatsu Xenia</h3>
+          <p class="mb-4">Harga: Rp 500.000 / hari</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Daihatsu Xenia')">Sewa Sekarang</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Daihatsu Xenia')">Favorit</button>
+          </div>
+        </div>
+
+        <!-- Daihatsu Sigra -->
+        <div class="bg-white shadow-md rounded-lg p-6 car-item" data-brand="Daihatsu" data-price="400000">
+          <img src="https://via.placeholder.com/400" alt="Daihatsu Sigra" class="mb-4 rounded-lg w-full h-48 object-cover">
+          <h3 class="text-xl font-bold mb-2">Daihatsu Sigra</h3>
+          <p class="mb-4">Harga: Rp 400.000 / hari</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Daihatsu Sigra')">Sewa Sekarang</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Daihatsu Sigra')">Favorit</button>
+          </div>
+        </div>
+
+        <!-- Daihatsu Terios -->
+        <div class="bg-white shadow-md rounded-lg p-6 car-item" data-brand="Daihatsu" data-price="550000">
+          <img src="https://via.placeholder.com/400" alt="Daihatsu Terios" class="mb-4 rounded-lg w-full h-48 object-cover">
+          <h3 class="text-xl font-bold mb-2">Daihatsu Terios</h3>
+          <p class="mb-4">Harga: Rp 550.000 / hari</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Daihatsu Terios')">Sewa Sekarang</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Daihatsu Terios')">Favorit</button>
+          </div>
+        </div>
+
+        <!-- Mitsubishi -->
+        <!-- Mitsubishi Xpander -->
+        <div class="bg-white shadow-md rounded-lg p-6 car-item" data-brand="Mitsubishi" data-price="380000">
+          <img src="https://via.placeholder.com/400" alt="Mitsubishi Xpander" class="mb-4 rounded-lg w-full h-48 object-cover">
+          <h3 class="text-xl font-bold mb-2">Mitsubishi Xpander</h3>
+          <p class="mb-4">Harga: Rp 380.000 / hari</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Mitsubishi Xpander')">Sewa Sekarang</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Mitsubishi Xpander')">Favorit</button>
+          </div>
+        </div>
+
+        <!-- Mitsubishi Outlander -->
+        <div class="bg-white shadow-md rounded-lg p-6 car-item" data-brand="Mitsubishi" data-price="700000">
+          <img src="https://via.placeholder.com/400" alt="Mitsubishi Outlander" class="mb-4 rounded-lg w-full h-48 object-cover">
+          <h3 class="text-xl font-bold mb-2">Mitsubishi Outlander</h3>
+          <p class="mb-4">Harga: Rp 700.000 / hari</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Mitsubishi Outlander')">Sewa Sekarang</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Mitsubishi Outlander')">Favorit</button>
+          </div>
+        </div>
+
+        <!-- Mitsubishi Pajero Sport -->
+        <div class="bg-white shadow-md rounded-lg p-6 car-item" data-brand="Mitsubishi" data-price="750000">
+          <img src="https://via.placeholder.com/400" alt="Mitsubishi Pajero Sport" class="mb-4 rounded-lg w-full h-48 object-cover">
+          <h3 class="text-xl font-bold mb-2">Mitsubishi Pajero Sport</h3>
+          <p class="mb-4">Harga: Rp 750.000 / hari</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Mitsubishi Pajero Sport')">Sewa Sekarang</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Mitsubishi Pajero Sport')">Favorit</button>
+          </div>
+        </div>
+
+        <!-- Nissan -->
+        <!-- Nissan Livina -->
+        <div class="bg-white shadow-md rounded-lg p-6 car-item" data-brand="Nissan" data-price="420000">
+          <img src="https://via.placeholder.com/400" alt="Nissan Livina" class="mb-4 rounded-lg w-full h-48 object-cover">
+          <h3 class="text-xl font-bold mb-2">Nissan Livina</h3>
+          <p class="mb-4">Harga: Rp 420.000 / hari</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Nissan Livina')">Sewa Sekarang</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Nissan Livina')">Favorit</button>
+          </div>
+        </div>
+
+        <!-- Nissan March -->
+        <div class="bg-white shadow-md rounded-lg p-6 car-item" data-brand="Nissan" data-price="360000">
+          <img src="https://via.placeholder.com/400" alt="Nissan March" class="mb-4 rounded-lg w-full h-48 object-cover">
+          <h3 class="text-xl font-bold mb-2">Nissan March</h3>
+          <p class="mb-4">Harga: Rp 360.000 / hari</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Nissan March')">Sewa Sekarang</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Nissan March')">Favorit</button>
+          </div>
+        </div>
+
+        <!-- Nissan Serena -->
+        <div class="bg-white shadow-md rounded-lg p-6 car-item" data-brand="Nissan" data-price="500000">
+          <img src="https://via.placeholder.com/400" alt="Nissan Serena" class="mb-4 rounded-lg w-full h-48 object-cover">
+          <h3 class="text-xl font-bold mb-2">Nissan Serena</h3>
+          <p class="mb-4">Harga: Rp 500.000 / hari</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Nissan Serena')">Sewa Sekarang</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Nissan Serena')">Favorit</button>
+          </div>
+        </div>
+
+        <!-- Kia -->
+        <!-- Kia Picanto -->
+        <div class="bg-white shadow-md rounded-lg p-6 car-item" data-brand="Kia" data-price="390000">
+          <img src="https://via.placeholder.com/400" alt="Kia Picanto" class="mb-4 rounded-lg w-full h-48 object-cover">
+          <h3 class="text-xl font-bold mb-2">Kia Picanto</h3>
+          <p class="mb-4">Harga: Rp 390.000 / hari</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Kia Picanto')">Sewa Sekarang</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Kia Picanto')">Favorit</button>
+          </div>
+        </div>
+
+        <!-- Kia Rio -->
+        <div class="bg-white shadow-md rounded-lg p-6 car-item" data-brand="Kia" data-price="420000">
+          <img src="https://via.placeholder.com/400" alt="Kia Rio" class="mb-4 rounded-lg w-full h-48 object-cover">
+          <h3 class="text-xl font-bold mb-2">Kia Rio</h3>
+          <p class="mb-4">Harga: Rp 420.000 / hari</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Kia Rio')">Sewa Sekarang</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Kia Rio')">Favorit</button>
+          </div>
+        </div>
+
+        <!-- Kia Sportage -->
+        <div class="bg-white shadow-md rounded-lg p-6 car-item" data-brand="Kia" data-price="600000">
+          <img src="https://via.placeholder.com/400" alt="Kia Sportage" class="mb-4 rounded-lg w-full h-48 object-cover">
+          <h3 class="text-xl font-bold mb-2">Kia Sportage</h3>
+          <p class="mb-4">Harga: Rp 600.000 / hari</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Kia Sportage')">Sewa Sekarang</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Kia Sportage')">Favorit</button>
+          </div>
+        </div>
+
+        <!-- Ford -->
+        <!-- Ford Fiesta -->
+        <div class="bg-white shadow-md rounded-lg p-6 car-item" data-brand="Ford" data-price="410000">
+          <img src="https://via.placeholder.com/400" alt="Ford Fiesta" class="mb-4 rounded-lg w-full h-48 object-cover">
+          <h3 class="text-xl font-bold mb-2">Ford Fiesta</h3>
+          <p class="mb-4">Harga: Rp 410.000 / hari</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Ford Fiesta')">Sewa Sekarang</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Ford Fiesta')">Favorit</button>
+          </div>
+        </div>
+
+        <!-- Ford Focus -->
+        <div class="bg-white shadow-md rounded-lg p-6 car-item" data-brand="Ford" data-price="600000">
+          <img src="https://via.placeholder.com/400" alt="Ford Focus" class="mb-4 rounded-lg w-full h-48 object-cover">
+          <h3 class="text-xl font-bold mb-2">Ford Focus</h3>
+          <p class="mb-4">Harga: Rp 600.000 / hari</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Ford Focus')">Sewa Sekarang</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Ford Focus')">Favorit</button>
+          </div>
+        </div>
+
+        <!-- Ford Ranger -->
+        <div class="bg-white shadow-md rounded-lg p-6 car-item" data-brand="Ford" data-price="700000">
+          <img src="https://via.placeholder.com/400" alt="Ford Ranger" class="mb-4 rounded-lg w-full h-48 object-cover">
+          <h3 class="text-xl font-bold mb-2">Ford Ranger</h3>
+          <p class="mb-4">Harga: Rp 700.000 / hari</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Ford Ranger')">Sewa Sekarang</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Ford Ranger')">Favorit</button>
+          </div>
+        </div>
+
+        <!-- BMW -->
+        <!-- BMW 3 Series -->
+        <div class="bg-white shadow-md rounded-lg p-6 car-item" data-brand="BMW" data-price="750000">
+          <img src="https://via.placeholder.com/400" alt="BMW 3 Series" class="mb-4 rounded-lg w-full h-48 object-cover">
+          <h3 class="text-xl font-bold mb-2">BMW 3 Series</h3>
+          <p class="mb-4">Harga: Rp 750.000 / hari</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('BMW 3 Series')">Sewa Sekarang</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('BMW 3 Series')">Favorit</button>
+          </div>
+        </div>
+
+        <!-- BMW 5 Series -->
+        <div class="bg-white shadow-md rounded-lg p-6 car-item" data-brand="BMW" data-price="850000">
+          <img src="https://via.placeholder.com/400" alt="BMW 5 Series" class="mb-4 rounded-lg w-full h-48 object-cover">
+          <h3 class="text-xl font-bold mb-2">BMW 5 Series</h3>
+          <p class="mb-4">Harga: Rp 850.000 / hari</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('BMW 5 Series')">Sewa Sekarang</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('BMW 5 Series')">Favorit</button>
+          </div>
+        </div>
+
+        <!-- BMW X5 -->
+        <div class="bg-white shadow-md rounded-lg p-6 car-item" data-brand="BMW" data-price="900000">
+          <img src="https://via.placeholder.com/400" alt="BMW X5" class="mb-4 rounded-lg w-full h-48 object-cover">
+          <h3 class="text-xl font-bold mb-2">BMW X5</h3>
+          <p class="mb-4">Harga: Rp 900.000 / hari</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('BMW X5')">Sewa Sekarang</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('BMW X5')">Favorit</button>
+          </div>
+        </div>
+
+        <!-- Mercedes-Benz -->
+        <!-- Mercedes-Benz C-Class -->
+        <div class="bg-white shadow-md rounded-lg p-6 car-item" data-brand="Mercedes-Benz" data-price="800000">
+          <img src="https://via.placeholder.com/400" alt="Mercedes-Benz C-Class" class="mb-4 rounded-lg w-full h-48 object-cover">
+          <h3 class="text-xl font-bold mb-2">Mercedes-Benz C-Class</h3>
+          <p class="mb-4">Harga: Rp 800.000 / hari</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Mercedes-Benz C-Class')">Sewa Sekarang</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Mercedes-Benz C-Class')">Favorit</button>
+          </div>
+        </div>
+
+        <!-- Mercedes-Benz E-Class -->
+        <div class="bg-white shadow-md rounded-lg p-6 car-item" data-brand="Mercedes-Benz" data-price="950000">
+          <img src="https://via.placeholder.com/400" alt="Mercedes-Benz E-Class" class="mb-4 rounded-lg w-full h-48 object-cover">
+          <h3 class="text-xl font-bold mb-2">Mercedes-Benz E-Class</h3>
+          <p class="mb-4">Harga: Rp 950.000 / hari</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Mercedes-Benz E-Class')">Sewa Sekarang</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Mercedes-Benz E-Class')">Favorit</button>
+          </div>
+        </div>
+
+        <!-- Mercedes-Benz GLE -->
+        <div class="bg-white shadow-md rounded-lg p-6 car-item" data-brand="Mercedes-Benz" data-price="1000000">
+          <img src="https://via.placeholder.com/400" alt="Mercedes-Benz GLE" class="mb-4 rounded-lg w-full h-48 object-cover">
+          <h3 class="text-xl font-bold mb-2">Mercedes-Benz GLE</h3>
+          <p class="mb-4">Harga: Rp 1.000.000 / hari</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Mercedes-Benz GLE')">Sewa Sekarang</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Mercedes-Benz GLE')">Favorit</button>
+          </div>
+        </div>
+
+        <!-- Tambahkan lebih banyak kartu mobil sesuai kebutuhan -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal -->
+  <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center px-4 hidden z-50">
+    <div class="bg-white p-6 rounded-lg w-full max-w-md mx-auto">
+      <h3 class="text-xl font-bold mb-4" id="modal-title">Formulir Penyewaan</h3>
+      <form id="rentalForm" action="/submit-rental" method="POST">
+        <div class="mb-4">
+          <label for="name" class="block mb-2 text-sm">Nama</label>
+          <input type="text" id="name" name="name" class="w-full p-3 border rounded-md" required>
+        </div>
+        <div class="mb-4">
+          <label for="phone" class="block mb-2 text-sm">Nomor Telepon</label>
+          <input type="tel" id="phone" name="phone" class="w-full p-3 border rounded-md" required pattern="[0-9]{10,15}" title="Masukkan nomor telepon yang valid.">
+        </div>
+        <div class="mb-4">
+          <label for="duration" class="block mb-2 text-sm">Durasi Sewa (hari)</label>
+          <input type="number" id="duration" name="duration" class="w-full p-3 border rounded-md" required min="1" oninput="calculateTotalPrice()">
+        </div>
+        <input type="hidden" id="selectedCar" name="car" value="">
+        <div class="mb-4">
+          <p class="font-semibold">Harga per Hari:</p>
+          <p id="pricePerDay" class="text-blue-600">Rp 0</p>
+        </div>
+        <div class="mb-4">
+          <p class="font-semibold">Total Harga:</p>
+          <p id="totalPrice" class="text-blue-600 font-bold">Rp 0</p>
+        </div>
+        <div class="mb-4">
+          <label class="flex items-center">
+            <input type="checkbox" id="confirmation" name="confirmation" class="form-checkbox h-5 w-5 text-blue-600" required>
+            <span class="ml-2 text-sm">Saya setuju dengan total harga.</span>
+          </label>
+        </div>
+        <div class="flex justify-between">p
+          <button type="submit" class="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700">Bayar</button>
+          <button type="button" onclick="closeModal()" class="bg-red-600 text-white py-2 px-6 rounded-lg hover:bg-red-700">Tutup</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Kontak -->
+  <section id="contact" class="bg-gray-100 py-20">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-10">Kontak Kami</h2>
+      <form action="https://formspree.io/f/mpwzlwnl" method="POST" class="max-w-xl mx-auto">
+        <div class="mb-6">
+          <label for="contact-name" class="block mb-2">Nama</label>
+          <input type="text" id="contact-name" name="name" class="w-full p-3 border rounded-md" required>
+        </div>
+        <div class="mb-6">
+          <label for="contact-email" class="block mb-2">Email</label>
+          <input type="email" id="contact-email" name="email" class="w-full p-3 border rounded-md" required>
+        </div>
+        <div class="mb-6">
+          <label for="message" class="block mb-2">Pesan atau Pertanyaan</label>
+          <textarea id="message" name="message" rows="5" class="w-full p-3 border rounded-md" required></textarea>
+        </div>
+        <!-- Kotak Saran -->
+        <div class="mb-6">
+          <label for="suggestion" class="block mb-2">Saran atau Feedback</label>
+          <textarea id="suggestion" name="suggestion" rows="5" class="w-full p-3 border rounded-md" placeholder="Berikan saran atau feedback Anda di sini..."></textarea>
+        </div>
+        <button type="submit" class="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700 w-full sm:w-auto">Kirim</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-blue-600 text-white py-4 text-center">
+    <p>&copy; 2024 Rental Mobil. All rights reserved.</p>
+  </footer>
+
+  <!-- Script -->
+  <script>
+    // Navbar highlight active section
+    const navLinks = document.querySelectorAll(".nav-link");
+    navLinks.forEach(link => {
+      link.addEventListener("click", () => {
+        navLinks.forEach(nav => nav.classList.remove("text-gray-200"));
+        link.classList.add("text-gray-200");
+        // Close mobile menu after clicking
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (!mobileMenu.classList.contains('hidden')) {
+          mobileMenu.classList.add('hidden');
+        }
+      });
+    });
+
+    // Toggle Mobile Menu
+    const hamburger = document.getElementById('hamburger-menu');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    hamburger.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      mobileMenu.classList.toggle('block');
+    });
+
+    const carPrices = {
+      'Toyota Avanza': 400000,
+      'Toyota Innova': 550000,
+      'Toyota Fortuner': 800000,
+      'Honda Brio': 350000,
+      'Honda Civic': 600000,
+      'Honda CR-V': 700000,
+      'Suzuki Ertiga': 450000,
+      'Suzuki Swift': 400000,
+      'Suzuki Ignis': 380000,
+      'Daihatsu Xenia': 500000,
+      'Daihatsu Sigra': 400000,
+      'Daihatsu Terios': 550000,
+      'Mitsubishi Xpander': 380000,
+      'Mitsubishi Outlander': 700000,
+      'Mitsubishi Pajero Sport': 750000,
+      'Nissan Livina': 420000,
+      'Nissan March': 360000,
+      'Nissan Serena': 500000,
+      'Kia Picanto': 390000,
+      'Kia Rio': 420000,
+      'Kia Sportage': 600000,
+      'Ford Fiesta': 410000,
+      'Ford Focus': 600000,
+      'Ford Ranger': 700000,
+      'BMW 3 Series': 750000,
+      'BMW 5 Series': 850000,
+      'BMW X5': 900000,
+      'Mercedes-Benz C-Class': 800000,
+      'Mercedes-Benz E-Class': 950000,
+      'Mercedes-Benz GLE': 1000000,
+      // Tambahkan lebih banyak mobil dan harga per hari sesuai kebutuhan
+    };
+
+    let selectedCar = "";
+
+    function openModal(carName) {
+      selectedCar = carName;
+      document.getElementById('modal-title').textContent = `Sewa ${carName}`;
+      document.getElementById('modal').classList.remove('hidden');
+      calculateTotalPrice();
+      updatePricePerDay();
+      document.getElementById('selectedCar').value = carName; // Mengatur nilai input tersembunyi
+      // Scroll to top to ensure modal is in view
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.add('hidden');
+      document.getElementById('rentalForm').reset();
+      document.getElementById('totalPrice').textContent = 'Rp 0';
+      document.getElementById('pricePerDay').textContent = 'Rp 0';
+    }
+
+    function calculateTotalPrice() {
+      const duration = parseInt(document.getElementById('duration').value) || 0;
+      const pricePerDay = carPrices[selectedCar] || 0;
+      const totalPrice = duration * pricePerDay;
+      document.getElementById('totalPrice').textContent = `Rp ${totalPrice.toLocaleString('id-ID')}`;
+    }
+
+    function updatePricePerDay() {
+      const pricePerDay = carPrices[selectedCar] || 0;
+      document.getElementById('pricePerDay').textContent = `Rp ${pricePerDay.toLocaleString('id-ID')} / hari`;
+    }
+
+    function filterCars() {
+      const brandFilter = document.getElementById('brandFilter').value.toLowerCase();
+      const carItems = document.querySelectorAll('.car-item');
+
+      carItems.forEach(item => {
+        const carBrand = item.getAttribute('data-brand').toLowerCase();
+        const matchesBrand = !brandFilter || carBrand === brandFilter;
+
+        if (matchesBrand) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+
+    function addToFavorites(carName) {
+      const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+      if (!favorites.includes(carName)) {
+        favorites.push(carName);
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        alert(`${carName} telah ditambahkan ke favorit!`);
+      } else {
+        alert(`${carName} sudah ada di favorit.`);
+      }
+    }
+
+    // Close modal when clicking outside the modal content
+    window.addEventListener('click', function(event) {
+      const modal = document.getElementById('modal');
+      if (event.target === modal) {
+        closeModal();
+      }
+    });
+
+    // Mengubah header saat scroll
+    window.addEventListener('scroll', () => {
+      const header = document.getElementById('header');
+      if (window.scrollY > 50) {
+        header.classList.add('py-2', 'bg-blue-700', 'shadow-lg');
+        header.classList.remove('py-6', 'bg-blue-600');
+      } else {
+        header.classList.remove('py-2', 'bg-blue-700', 'shadow-lg');
+        header.classList.add('py-6', 'bg-blue-600');
+      }
+    });
+  </script>
+</body>
+</html>
