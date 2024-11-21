@@ -5,14 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Rental Mobil</title>
   
-  <!-- Menggunakan Tailwind CSS CDN -->
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- Link ke Google Fonts -->
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   
+  <!-- SweetAlert2 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
   <style>
-    /* Gaya Kustom (Jika Diperlukan) */
     body {
       font-family: 'Montserrat', sans-serif;
     }
@@ -28,6 +30,13 @@
         <a href="#home" class="nav-link px-4 hover:text-gray-200">Beranda</a>
         <a href="#cars" class="nav-link px-4 hover:text-gray-200">Mobil</a>
         <a href="#contact" class="nav-link px-4 hover:text-gray-200">Kontak</a>
+        <!-- Tombol Favorit -->
+        <button id="favorites-button" class="relative px-4 hover:text-gray-200 focus:outline-none">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 19.364l-.001-.001C2.165 16.577 2.165 12.42 5.121 9.633c3-3 7.905-3 10.879 0 2.974 3 2.974 7.863 0 10.863L12 21.364l-6.879-6.501z" />
+          </svg>
+          <span id="favorites-count" class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">0</span>
+        </button>
       </nav>
       <!-- Hamburger Menu for Mobile -->
       <div class="md:hidden">
@@ -43,6 +52,10 @@
       <a href="#home" class="block text-center nav-link px-4 py-2 hover:bg-blue-700">Beranda</a>
       <a href="#cars" class="block text-center nav-link px-4 py-2 hover:bg-blue-700">Mobil</a>
       <a href="#contact" class="block text-center nav-link px-4 py-2 hover:bg-blue-700">Kontak</a>
+      <!-- Tombol Favorit di Mobile -->
+      <button id="favorites-button-mobile" class="block w-full text-left px-4 py-2 hover:bg-blue-700 focus:outline-none">
+        Favorit <span id="favorites-count-mobile" class="ml-2 bg-red-600 text-white text-xs px-2 py-1 rounded-full">0</span>
+      </button>
     </div>
   </header>
 
@@ -90,7 +103,7 @@
           <p class="mb-4">Harga: Rp 400.000 / hari</p>
           <div class="flex flex-col sm:flex-row gap-2">
             <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Toyota Avanza')">Sewa Sekarang</button>
-            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Toyota Avanza')">Favorit</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1 favorite-button" onclick="toggleFavorite('Toyota Avanza')">Favorit</button>
           </div>
         </div>
 
@@ -101,7 +114,7 @@
           <p class="mb-4">Harga: Rp 550.000 / hari</p>
           <div class="flex flex-col sm:flex-row gap-2">
             <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Toyota Innova')">Sewa Sekarang</button>
-            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Toyota Innova')">Favorit</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1 favorite-button" onclick="toggleFavorite('Toyota Innova')">Favorit</button>
           </div>
         </div>
 
@@ -112,7 +125,7 @@
           <p class="mb-4">Harga: Rp 800.000 / hari</p>
           <div class="flex flex-col sm:flex-row gap-2">
             <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Toyota Fortuner')">Sewa Sekarang</button>
-            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Toyota Fortuner')">Favorit</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1 favorite-button" onclick="toggleFavorite('Toyota Fortuner')">Favorit</button>
           </div>
         </div>
 
@@ -124,7 +137,7 @@
           <p class="mb-4">Harga: Rp 350.000 / hari</p>
           <div class="flex flex-col sm:flex-row gap-2">
             <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Honda Brio')">Sewa Sekarang</button>
-            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Honda Brio')">Favorit</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1 favorite-button" onclick="toggleFavorite('Honda Brio')">Favorit</button>
           </div>
         </div>
 
@@ -135,7 +148,7 @@
           <p class="mb-4">Harga: Rp 600.000 / hari</p>
           <div class="flex flex-col sm:flex-row gap-2">
             <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Honda Civic')">Sewa Sekarang</button>
-            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Honda Civic')">Favorit</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1 favorite-button" onclick="toggleFavorite('Honda Civic')">Favorit</button>
           </div>
         </div>
 
@@ -146,7 +159,7 @@
           <p class="mb-4">Harga: Rp 700.000 / hari</p>
           <div class="flex flex-col sm:flex-row gap-2">
             <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Honda CR-V')">Sewa Sekarang</button>
-            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Honda CR-V')">Favorit</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1 favorite-button" onclick="toggleFavorite('Honda CR-V')">Favorit</button>
           </div>
         </div>
 
@@ -158,7 +171,7 @@
           <p class="mb-4">Harga: Rp 450.000 / hari</p>
           <div class="flex flex-col sm:flex-row gap-2">
             <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Suzuki Ertiga')">Sewa Sekarang</button>
-            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Suzuki Ertiga')">Favorit</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1 favorite-button" onclick="toggleFavorite('Suzuki Ertiga')">Favorit</button>
           </div>
         </div>
 
@@ -169,7 +182,7 @@
           <p class="mb-4">Harga: Rp 400.000 / hari</p>
           <div class="flex flex-col sm:flex-row gap-2">
             <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Suzuki Swift')">Sewa Sekarang</button>
-            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Suzuki Swift')">Favorit</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1 favorite-button" onclick="toggleFavorite('Suzuki Swift')">Favorit</button>
           </div>
         </div>
 
@@ -180,7 +193,7 @@
           <p class="mb-4">Harga: Rp 380.000 / hari</p>
           <div class="flex flex-col sm:flex-row gap-2">
             <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Suzuki Ignis')">Sewa Sekarang</button>
-            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Suzuki Ignis')">Favorit</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1 favorite-button" onclick="toggleFavorite('Suzuki Ignis')">Favorit</button>
           </div>
         </div>
 
@@ -192,7 +205,7 @@
           <p class="mb-4">Harga: Rp 500.000 / hari</p>
           <div class="flex flex-col sm:flex-row gap-2">
             <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Daihatsu Xenia')">Sewa Sekarang</button>
-            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Daihatsu Xenia')">Favorit</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1 favorite-button" onclick="toggleFavorite('Daihatsu Xenia')">Favorit</button>
           </div>
         </div>
 
@@ -203,7 +216,7 @@
           <p class="mb-4">Harga: Rp 400.000 / hari</p>
           <div class="flex flex-col sm:flex-row gap-2">
             <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Daihatsu Sigra')">Sewa Sekarang</button>
-            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Daihatsu Sigra')">Favorit</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1 favorite-button" onclick="toggleFavorite('Daihatsu Sigra')">Favorit</button>
           </div>
         </div>
 
@@ -214,7 +227,7 @@
           <p class="mb-4">Harga: Rp 550.000 / hari</p>
           <div class="flex flex-col sm:flex-row gap-2">
             <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Daihatsu Terios')">Sewa Sekarang</button>
-            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Daihatsu Terios')">Favorit</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1 favorite-button" onclick="toggleFavorite('Daihatsu Terios')">Favorit</button>
           </div>
         </div>
 
@@ -226,7 +239,7 @@
           <p class="mb-4">Harga: Rp 380.000 / hari</p>
           <div class="flex flex-col sm:flex-row gap-2">
             <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Mitsubishi Xpander')">Sewa Sekarang</button>
-            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Mitsubishi Xpander')">Favorit</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1 favorite-button" onclick="toggleFavorite('Mitsubishi Xpander')">Favorit</button>
           </div>
         </div>
 
@@ -237,7 +250,7 @@
           <p class="mb-4">Harga: Rp 700.000 / hari</p>
           <div class="flex flex-col sm:flex-row gap-2">
             <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Mitsubishi Outlander')">Sewa Sekarang</button>
-            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Mitsubishi Outlander')">Favorit</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1 favorite-button" onclick="toggleFavorite('Mitsubishi Outlander')">Favorit</button>
           </div>
         </div>
 
@@ -248,7 +261,7 @@
           <p class="mb-4">Harga: Rp 750.000 / hari</p>
           <div class="flex flex-col sm:flex-row gap-2">
             <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Mitsubishi Pajero Sport')">Sewa Sekarang</button>
-            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Mitsubishi Pajero Sport')">Favorit</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1 favorite-button" onclick="toggleFavorite('Mitsubishi Pajero Sport')">Favorit</button>
           </div>
         </div>
 
@@ -260,7 +273,7 @@
           <p class="mb-4">Harga: Rp 420.000 / hari</p>
           <div class="flex flex-col sm:flex-row gap-2">
             <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Nissan Livina')">Sewa Sekarang</button>
-            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Nissan Livina')">Favorit</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1 favorite-button" onclick="toggleFavorite('Nissan Livina')">Favorit</button>
           </div>
         </div>
 
@@ -271,7 +284,7 @@
           <p class="mb-4">Harga: Rp 360.000 / hari</p>
           <div class="flex flex-col sm:flex-row gap-2">
             <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Nissan March')">Sewa Sekarang</button>
-            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Nissan March')">Favorit</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1 favorite-button" onclick="toggleFavorite('Nissan March')">Favorit</button>
           </div>
         </div>
 
@@ -282,7 +295,7 @@
           <p class="mb-4">Harga: Rp 500.000 / hari</p>
           <div class="flex flex-col sm:flex-row gap-2">
             <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Nissan Serena')">Sewa Sekarang</button>
-            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Nissan Serena')">Favorit</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1 favorite-button" onclick="toggleFavorite('Nissan Serena')">Favorit</button>
           </div>
         </div>
 
@@ -294,7 +307,7 @@
           <p class="mb-4">Harga: Rp 390.000 / hari</p>
           <div class="flex flex-col sm:flex-row gap-2">
             <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Kia Picanto')">Sewa Sekarang</button>
-            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Kia Picanto')">Favorit</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1 favorite-button" onclick="toggleFavorite('Kia Picanto')">Favorit</button>
           </div>
         </div>
 
@@ -305,7 +318,7 @@
           <p class="mb-4">Harga: Rp 420.000 / hari</p>
           <div class="flex flex-col sm:flex-row gap-2">
             <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Kia Rio')">Sewa Sekarang</button>
-            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Kia Rio')">Favorit</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1 favorite-button" onclick="toggleFavorite('Kia Rio')">Favorit</button>
           </div>
         </div>
 
@@ -316,7 +329,7 @@
           <p class="mb-4">Harga: Rp 600.000 / hari</p>
           <div class="flex flex-col sm:flex-row gap-2">
             <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Kia Sportage')">Sewa Sekarang</button>
-            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Kia Sportage')">Favorit</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1 favorite-button" onclick="toggleFavorite('Kia Sportage')">Favorit</button>
           </div>
         </div>
 
@@ -328,7 +341,7 @@
           <p class="mb-4">Harga: Rp 410.000 / hari</p>
           <div class="flex flex-col sm:flex-row gap-2">
             <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Ford Fiesta')">Sewa Sekarang</button>
-            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Ford Fiesta')">Favorit</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1 favorite-button" onclick="toggleFavorite('Ford Fiesta')">Favorit</button>
           </div>
         </div>
 
@@ -339,7 +352,7 @@
           <p class="mb-4">Harga: Rp 600.000 / hari</p>
           <div class="flex flex-col sm:flex-row gap-2">
             <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Ford Focus')">Sewa Sekarang</button>
-            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Ford Focus')">Favorit</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1 favorite-button" onclick="toggleFavorite('Ford Focus')">Favorit</button>
           </div>
         </div>
 
@@ -350,7 +363,7 @@
           <p class="mb-4">Harga: Rp 700.000 / hari</p>
           <div class="flex flex-col sm:flex-row gap-2">
             <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Ford Ranger')">Sewa Sekarang</button>
-            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Ford Ranger')">Favorit</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1 favorite-button" onclick="toggleFavorite('Ford Ranger')">Favorit</button>
           </div>
         </div>
 
@@ -362,7 +375,7 @@
           <p class="mb-4">Harga: Rp 750.000 / hari</p>
           <div class="flex flex-col sm:flex-row gap-2">
             <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('BMW 3 Series')">Sewa Sekarang</button>
-            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('BMW 3 Series')">Favorit</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1 favorite-button" onclick="toggleFavorite('BMW 3 Series')">Favorit</button>
           </div>
         </div>
 
@@ -373,7 +386,7 @@
           <p class="mb-4">Harga: Rp 850.000 / hari</p>
           <div class="flex flex-col sm:flex-row gap-2">
             <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('BMW 5 Series')">Sewa Sekarang</button>
-            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('BMW 5 Series')">Favorit</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1 favorite-button" onclick="toggleFavorite('BMW 5 Series')">Favorit</button>
           </div>
         </div>
 
@@ -384,7 +397,7 @@
           <p class="mb-4">Harga: Rp 900.000 / hari</p>
           <div class="flex flex-col sm:flex-row gap-2">
             <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('BMW X5')">Sewa Sekarang</button>
-            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('BMW X5')">Favorit</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1 favorite-button" onclick="toggleFavorite('BMW X5')">Favorit</button>
           </div>
         </div>
 
@@ -396,7 +409,7 @@
           <p class="mb-4">Harga: Rp 800.000 / hari</p>
           <div class="flex flex-col sm:flex-row gap-2">
             <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Mercedes-Benz C-Class')">Sewa Sekarang</button>
-            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Mercedes-Benz C-Class')">Favorit</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1 favorite-button" onclick="toggleFavorite('Mercedes-Benz C-Class')">Favorit</button>
           </div>
         </div>
 
@@ -407,7 +420,7 @@
           <p class="mb-4">Harga: Rp 950.000 / hari</p>
           <div class="flex flex-col sm:flex-row gap-2">
             <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Mercedes-Benz E-Class')">Sewa Sekarang</button>
-            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Mercedes-Benz E-Class')">Favorit</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1 favorite-button" onclick="toggleFavorite('Mercedes-Benz E-Class')">Favorit</button>
           </div>
         </div>
 
@@ -418,7 +431,7 @@
           <p class="mb-4">Harga: Rp 1.000.000 / hari</p>
           <div class="flex flex-col sm:flex-row gap-2">
             <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex-1" onclick="openModal('Mercedes-Benz GLE')">Sewa Sekarang</button>
-            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1" onclick="addToFavorites('Mercedes-Benz GLE')">Favorit</button>
+            <button class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-600 flex-1 favorite-button" onclick="toggleFavorite('Mercedes-Benz GLE')">Favorit</button>
           </div>
         </div>
 
@@ -427,27 +440,27 @@
     </div>
   </section>
 
-  <!-- Modal -->
+  <!-- Modal Sewa -->
   <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center px-4 hidden z-50">
     <div class="bg-white p-6 rounded-lg w-full max-w-md mx-auto">
       <h3 class="text-xl font-bold mb-4" id="modal-title">Formulir Penyewaan</h3>
       <form id="rentalForm" action="/submit-rental" method="POST">
         <div class="mb-4">
           <label for="name" class="block mb-2 text-sm">Nama</label>
-          <input type="text" id="name" name="name" class="w-full p-3 border rounded-md" required>
+          <input type="text" id="name" name="name" class="w-full p-3 border rounded-md">
         </div>
         <div class="mb-4">
           <label for="phone" class="block mb-2 text-sm">Nomor Telepon</label>
-          <input type="tel" id="phone" name="phone" class="w-full p-3 border rounded-md" required pattern="[0-9]{10,15}" title="Masukkan nomor telepon yang valid.">
+          <input type="tel" id="phone" name="phone" class="w-full p-3 border rounded-md" pattern="[0-9]{10,15}" title="Masukkan nomor telepon yang valid (10-15 digit).">
         </div>
         <div class="mb-4">
           <label for="duration" class="block mb-2 text-sm">Durasi Sewa (hari)</label>
-          <input type="number" id="duration" name="duration" class="w-full p-3 border rounded-md" required min="1" oninput="calculateTotalPrice()">
+          <input type="number" id="duration" name="duration" class="w-full p-3 border rounded-md" min="1" oninput="calculateTotalPrice()">
         </div>
         <input type="hidden" id="selectedCar" name="car" value="">
         <div class="mb-4">
           <p class="font-semibold">Harga per Hari:</p>
-          <p id="pricePerDay" class="text-blue-600">Rp 0</p>
+          <p id="pricePerDay" class="text-blue-600">Rp 0 / hari</p>
         </div>
         <div class="mb-4">
           <p class="font-semibold">Total Harga:</p>
@@ -455,15 +468,28 @@
         </div>
         <div class="mb-4">
           <label class="flex items-center">
-            <input type="checkbox" id="confirmation" name="confirmation" class="form-checkbox h-5 w-5 text-blue-600" required>
+            <input type="checkbox" id="confirmation" name="confirmation" class="form-checkbox h-5 w-5 text-blue-600">
             <span class="ml-2 text-sm">Saya setuju dengan total harga.</span>
           </label>
         </div>
-        <div class="flex justify-between">p
+        <div class="flex justify-between">
           <button type="submit" class="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700">Bayar</button>
           <button type="button" onclick="closeModal()" class="bg-red-600 text-white py-2 px-6 rounded-lg hover:bg-red-700">Tutup</button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- Modal Favorit -->
+  <div id="favorites-modal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center px-4 hidden z-50">
+    <div class="bg-white p-6 rounded-lg w-full max-w-2xl mx-auto overflow-y-auto max-h-full">
+      <h3 class="text-xl font-bold mb-4">Kendaraan Favorit</h3>
+      <div id="favorites-container" class="space-y-4">
+        <!-- Daftar Favorit Akan Ditampilkan di Sini -->
+      </div>
+      <div class="flex justify-end mt-6">
+        <button type="button" onclick="closeFavoritesModal()" class="bg-red-600 text-white py-2 px-6 rounded-lg hover:bg-red-700">Tutup</button>
+      </div>
     </div>
   </div>
 
@@ -474,15 +500,15 @@
       <form action="https://formspree.io/f/mpwzlwnl" method="POST" class="max-w-xl mx-auto">
         <div class="mb-6">
           <label for="contact-name" class="block mb-2">Nama</label>
-          <input type="text" id="contact-name" name="name" class="w-full p-3 border rounded-md" required>
+          <input type="text" id="contact-name" name="name" class="w-full p-3 border rounded-md">
         </div>
         <div class="mb-6">
           <label for="contact-email" class="block mb-2">Email</label>
-          <input type="email" id="contact-email" name="email" class="w-full p-3 border rounded-md" required>
+          <input type="email" id="contact-email" name="email" class="w-full p-3 border rounded-md">
         </div>
         <div class="mb-6">
           <label for="message" class="block mb-2">Pesan atau Pertanyaan</label>
-          <textarea id="message" name="message" rows="5" class="w-full p-3 border rounded-md" required></textarea>
+          <textarea id="message" name="message" rows="5" class="w-full p-3 border rounded-md"></textarea>
         </div>
         <!-- Kotak Saran -->
         <div class="mb-6">
@@ -496,7 +522,7 @@
 
   <!-- Footer -->
   <footer class="bg-blue-600 text-white py-4 text-center">
-    <p>&copy; 2024 Rental Mobil. All rights reserved.</p>
+    <p>&copy; 2024 Kelompok 5. All rights reserved.</p>
   </footer>
 
   <!-- Script -->
@@ -575,7 +601,8 @@
       document.getElementById('modal').classList.add('hidden');
       document.getElementById('rentalForm').reset();
       document.getElementById('totalPrice').textContent = 'Rp 0';
-      document.getElementById('pricePerDay').textContent = 'Rp 0';
+      document.getElementById('pricePerDay').textContent = 'Rp 0 / hari';
+      updateFavoriteButtons(); // Update tombol favorit setelah reset
     }
 
     function calculateTotalPrice() {
@@ -606,16 +633,205 @@
       });
     }
 
-    function addToFavorites(carName) {
-      const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-      if (!favorites.includes(carName)) {
+    // Favorit Feature
+
+    function toggleFavorite(carName) {
+      let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+      const index = favorites.indexOf(carName);
+      if (index === -1) {
         favorites.push(carName);
         localStorage.setItem('favorites', JSON.stringify(favorites));
-        alert(`${carName} telah ditambahkan ke favorit!`);
+        Swal.fire({
+          icon: 'success',
+          title: 'Berhasil!',
+          text: `${carName} telah ditambahkan ke favorit!`,
+          timer: 2000,
+          showConfirmButton: false
+        });
       } else {
-        alert(`${carName} sudah ada di favorit.`);
+        favorites.splice(index, 1);
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        Swal.fire({
+          icon: 'warning',
+          title: 'Dihapus!',
+          text: `${carName} telah dihapus dari favorit.`,
+          timer: 2000,
+          showConfirmButton: false
+        });
       }
+      updateFavoritesCount();
+      updateFavoriteButtons();
     }
+
+    function updateFavoritesCount() {
+      const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+      document.getElementById('favorites-count').textContent = favorites.length;
+      document.getElementById('favorites-count-mobile').textContent = favorites.length;
+    }
+
+    function updateFavoriteButtons() {
+      const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+      const favoriteButtons = document.querySelectorAll('.favorite-button');
+      favoriteButtons.forEach(button => {
+        const carNameMatch = button.getAttribute('onclick').match(/toggleFavorite\('([^']+)'\)/);
+        if (carNameMatch && carNameMatch[1]) {
+          const carName = carNameMatch[1];
+          if (favorites.includes(carName)) {
+            button.classList.remove('bg-yellow-500', 'hover:bg-yellow-600');
+            button.classList.add('bg-red-500', 'hover:bg-red-600');
+            button.textContent = 'Hapus Favorit';
+          } else {
+            button.classList.remove('bg-red-500', 'hover:bg-red-600');
+            button.classList.add('bg-yellow-500', 'hover:bg-yellow-600');
+            button.textContent = 'Favorit';
+          }
+        }
+      });
+    }
+
+    function renderFavorites() {
+      const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+      const favoritesContainer = document.getElementById('favorites-container');
+      favoritesContainer.innerHTML = '';
+
+      if (favorites.length === 0) {
+        favoritesContainer.innerHTML = '<p class="text-center text-gray-500">Anda belum menambahkan favorit.</p>';
+        return;
+      }
+
+      favorites.forEach(carName => {
+        const carPrice = carPrices[carName] || 0;
+        const carItem = document.createElement('div');
+        carItem.className = 'flex items-center space-x-4 border p-4 rounded-lg';
+        carItem.innerHTML = `
+          <img src="https://via.placeholder.com/100" alt="${carName}" class="w-24 h-24 object-cover rounded-lg">
+          <div class="flex-1">
+            <h4 class="text-xl font-bold">${carName}</h4>
+            <p>Harga: Rp ${carPrice.toLocaleString('id-ID')} / hari</p>
+          </div>
+          <button onclick="toggleFavorite('${carName}')" class="bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700">Hapus</button>
+        `;
+        favoritesContainer.appendChild(carItem);
+      });
+    }
+
+    // Open Favorites Modal
+    const favoritesButton = document.getElementById('favorites-button');
+    const favoritesButtonMobile = document.getElementById('favorites-button-mobile');
+    const favoritesModal = document.getElementById('favorites-modal');
+
+    favoritesButton.addEventListener('click', () => {
+      renderFavorites();
+      favoritesModal.classList.remove('hidden');
+    });
+
+    favoritesButtonMobile.addEventListener('click', () => {
+      renderFavorites();
+      favoritesModal.classList.remove('hidden');
+      // Close mobile menu
+      mobileMenu.classList.add('hidden');
+    });
+
+    function closeFavoritesModal() {
+      favoritesModal.classList.add('hidden');
+    }
+
+    // Handle Form Submission with SweetAlert2
+    const rentalForm = document.getElementById('rentalForm');
+
+    rentalForm.addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent default form submission
+
+      // Mengambil nilai input
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const duration = document.getElementById('duration').value.trim();
+      const confirmation = document.getElementById('confirmation').checked;
+
+      // Validasi Nama
+      if (name === "") {
+        Swal.fire({
+          icon: 'error',
+          title: 'Nama Kosong',
+          text: 'Silakan masukkan nama Anda.',
+        });
+        return;
+      }
+
+      // Validasi Nomor Telepon
+      const phonePattern = /^[0-9]{10,15}$/;
+      if (!phonePattern.test(phone)) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Nomor Telepon Tidak Valid',
+          text: 'Silakan masukkan nomor telepon yang valid (10-15 digit).',
+        });
+        return;
+      }
+
+      // Validasi Durasi Sewa
+      if (isNaN(duration) || parseInt(duration) < 1) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Durasi Sewa Tidak Valid',
+          text: 'Silakan masukkan durasi sewa yang valid (minimal 1 hari).',
+        });
+        return;
+      }
+
+      // Validasi Konfirmasi Harga
+      if (!confirmation) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Konfirmasi Diperlukan',
+          text: 'Anda harus menyetujui total harga sebelum melanjutkan pembayaran.',
+        });
+        return;
+      }
+
+      // Jika semua validasi terpenuhi, tampilkan konfirmasi pembayaran
+      Swal.fire({
+        title: 'Konfirmasi Pembayaran',
+        text: `Apakah Anda yakin ingin membayar sewa ${selectedCar}?`,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Ya, Bayar',
+        cancelButtonText: 'Batal',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Simulasikan pembayaran berhasil
+          Swal.fire({
+            icon: 'success',
+            title: 'Pembayaran Berhasil!',
+            text: `Terima kasih telah menyewa ${selectedCar}.`,
+            timer: 2000,
+            showConfirmButton: false
+          }).then(() => {
+            // Reset form dan tutup modal
+            rentalForm.reset();
+            document.getElementById('totalPrice').textContent = 'Rp 0';
+            document.getElementById('pricePerDay').textContent = 'Rp 0 / hari';
+            closeModal();
+          });
+
+          // Jika Anda memiliki backend, Anda bisa mengirimkan form secara manual di sini
+          // misalnya dengan menggunakan fetch atau AJAX
+          /*
+          fetch(rentalForm.action, {
+            method: rentalForm.method,
+            body: new FormData(rentalForm)
+          })
+          .then(response => response.json())
+          .then(data => {
+            // Tanggapi hasil dari backend
+          })
+          .catch(error => {
+            // Tangani error
+          });
+          */
+        }
+      });
+    });
 
     // Close modal when clicking outside the modal content
     window.addEventListener('click', function(event) {
@@ -623,9 +839,13 @@
       if (event.target === modal) {
         closeModal();
       }
+
+      if (event.target === favoritesModal) {
+        closeFavoritesModal();
+      }
     });
 
-    // Mengubah header saat scroll
+    // Change header style on scroll
     window.addEventListener('scroll', () => {
       const header = document.getElementById('header');
       if (window.scrollY > 50) {
@@ -635,6 +855,12 @@
         header.classList.remove('py-2', 'bg-blue-700', 'shadow-lg');
         header.classList.add('py-6', 'bg-blue-600');
       }
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      updateFavoritesCount();
+      updateFavoriteButtons();
     });
   </script>
 </body>
